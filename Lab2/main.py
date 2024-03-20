@@ -92,12 +92,13 @@ def perform_simulation(population, function):
     print()
 
 
-POPULATION_SIZE = 8
-BUDGET = 50000
-DIMENSIONS = 10
-UPPER_BOUND = 100
-EVOLUTION_ITERATIONS = math.ceil(BUDGET / POPULATION_SIZE)
-SIGMA = 0.7
-starting_population = generate_starting_population(POPULATION_SIZE, -UPPER_BOUND, UPPER_BOUND, DIMENSIONS)
-perform_simulation(starting_population, f2)
-perform_simulation(starting_population, f13)
+if __name__ == "__main__":
+    POPULATION_SIZE = 8
+    BUDGET = 50000
+    DIMENSIONS = 10
+    UPPER_BOUND = 100
+    EVOLUTION_ITERATIONS = math.ceil(BUDGET / POPULATION_SIZE)
+    SIGMA = 0.7
+    starting_population = generate_starting_population(POPULATION_SIZE, -UPPER_BOUND, UPPER_BOUND, DIMENSIONS)
+    perform_simulation(starting_population, f2)
+    perform_simulation(starting_population, f13)
