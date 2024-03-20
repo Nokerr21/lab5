@@ -1,6 +1,5 @@
 import math
 import random
-import copy
 from cec2017.functions import f2
 from cec2017.functions import f13
 import numpy as np
@@ -32,6 +31,7 @@ def simulate_evolution(population, function):
         # print("current_population", new_population)
         population = new_population
         current_iteration += 1
+    print("global_best_individual", global_best_individual)
 
 
 def assess_population(population, function):
@@ -59,31 +59,39 @@ def tournament_selection(population):
         print("Pretender2: ", pretender2)
         # print(population)
         if pretender1[1] < pretender2[1]:
-            successors.append(copy.deepcopy(pretender1))
+            successors.append(pretender1)
         else:
-            successors.append(copy.deepcopy(pretender2))
+            successors.append(pretender2)
     # print(successors)
     return successors
 
 
 def mutate(population):
     print("MUTATION_FACTOR", MUTATION_FACTOR)
-    mutated_population = population.copy()
-    for individual in mutated_population:
-        mutation_rate = random.gauss(0, 1)
-        individual[0] = individual[0] + (mutation_rate * MUTATION_FACTOR)
+    mutated_population = []
+    for individual in population:
+        mutation_rate = np.random.normal(0, 1, len(individual[0]))
+        mutated_individual = individual[0] + (mutation_rate * MUTATION_FACTOR)
+
+        for i in range(0, len(mutated_individual)):
+            if mutated_individual[i] > UPPER_BOUND:
+                mutated_individual[i] = UPPER_BOUND
+            elif mutated_individual[i] < -UPPER_BOUND:
+                mutated_individual[i] = -UPPER_BOUND
+
+        mutated_population.append([mutated_individual, []])
     return mutated_population
 
 
-POPULATION_SIZE = 20
-BUDGET = 100
+POPULATION_SIZE = 10
+BUDGET = 10000
 DIMENSIONS = 10
 UPPER_BOUND = 100
 EVOLUTION_ITERATIONS = math.ceil(BUDGET / POPULATION_SIZE)
 MUTATION_FACTOR = 2
 starting_population = generate_starting_population(POPULATION_SIZE, -UPPER_BOUND, UPPER_BOUND, DIMENSIONS)
 print(starting_population)
-simulate_evolution(starting_population, f2)
+simulate_evolution(starting_population, f13)
 
 # 6 linijka to selekcja turniejowa
 # 7 linijka to mutacja
