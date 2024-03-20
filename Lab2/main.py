@@ -1,5 +1,6 @@
 import math
 import random
+import statistics
 from cec2017.functions import f2
 from cec2017.functions import f13
 import numpy as np
@@ -15,23 +16,18 @@ def generate_starting_population(population_size, lower_bound, upper_bound, dime
 
 
 def simulate_evolution(population, function):
-    # population = generate_starting_population(population_size, upper_bound, dimensionality)
     assess_population(population, function)
     global_best_individual = find_best_individual(population)
-    # print("best_individual: ", global_best_individual)
     current_iteration = 0
     while current_iteration <= EVOLUTION_ITERATIONS:
-        # print("population", population)
         new_population = create_new_generation(population)
         assess_population(new_population, function)
         current_best_individual = find_best_individual(new_population)
         if current_best_individual[1] < global_best_individual[1]:
             global_best_individual = current_best_individual
-        # print("Iteration: " + str(current_iteration) + ": " + str(global_best_individual))
-        # print("current_population", new_population)
         population = new_population
         current_iteration += 1
-    print("global_best_individual", global_best_individual)
+    return global_best_individual
 
 
 def assess_population(population, function):
@@ -54,24 +50,18 @@ def tournament_selection(population):
     for i in range(0, len(population)):
         pretender1 = random.choice(population)
         pretender2 = random.choice(population)
-        # print(population)
-        print("Pretender1: ", pretender1)
-        print("Pretender2: ", pretender2)
-        # print(population)
         if pretender1[1] < pretender2[1]:
             successors.append(pretender1)
         else:
             successors.append(pretender2)
-    # print(successors)
     return successors
 
 
 def mutate(population):
-    print("MUTATION_FACTOR", MUTATION_FACTOR)
     mutated_population = []
     for individual in population:
         mutation_rate = np.random.normal(0, 1, len(individual[0]))
-        mutated_individual = individual[0] + (mutation_rate * MUTATION_FACTOR)
+        mutated_individual = individual[0] + (mutation_rate * SIGMA)
 
         for i in range(0, len(mutated_individual)):
             if mutated_individual[i] > UPPER_BOUND:
@@ -83,16 +73,31 @@ def mutate(population):
     return mutated_population
 
 
-POPULATION_SIZE = 10
-BUDGET = 10000
+def perform_simulation(population, function):
+    results = []
+    grades = []
+
+    for i in range(0, 50):
+        results.append(simulate_evolution(population, function))
+    results.sort(key=lambda x: x[1], reverse=False)
+    for result in results:
+        grades.append(result[1])
+
+    print("Min wynik: " + str(results[0][1]) + " osiągnięty dla: " + str(results[0][0]))
+    print("Max wynik: " + str(results[-1][1]) + " osiągnięty dla: " + str(results[-1][0]))
+    print("Średni wynik: ", sum(grades) / len(grades))
+    print("Odchylenie standardowe: ", statistics.stdev(grades))
+
+    print()
+    print()
+
+
+POPULATION_SIZE = 8
+BUDGET = 50000
 DIMENSIONS = 10
 UPPER_BOUND = 100
 EVOLUTION_ITERATIONS = math.ceil(BUDGET / POPULATION_SIZE)
-MUTATION_FACTOR = 2
+SIGMA = 0.7
 starting_population = generate_starting_population(POPULATION_SIZE, -UPPER_BOUND, UPPER_BOUND, DIMENSIONS)
-print(starting_population)
-simulate_evolution(starting_population, f13)
-
-# 6 linijka to selekcja turniejowa
-# 7 linijka to mutacja
-# 14 linijka to sukcesja generacyjna
+perform_simulation(starting_population, f2)
+perform_simulation(starting_population, f13)
