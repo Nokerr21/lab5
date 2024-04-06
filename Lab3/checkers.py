@@ -1,18 +1,5 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 """
-@author: RafaĹ Biedrzycki
-Kodu tego mogÄ uĹźywaÄ moi studenci na Äwiczeniach z przedmiotu WstÄp do Sztucznej Inteligencji.
-Kod ten powstaĹ aby przyspieszyÄ i uĹatwiÄ pracÄ studentĂłw, aby mogli skupiÄ siÄ na algorytmach sztucznej inteligencji.
-Kod nie jest wzorem dobrej jakoĹci programowania w Pythonie, nie jest rĂłwnieĹź wzorem programowania obiektowego, moĹźe zawieraÄ bĹÄdy.
-Mam ĹwiadomoĹÄ wielu jego brakĂłw ale nie mam czasu na jego poprawianie.
-
-Zasady gry: https://en.wikipedia.org/wiki/English_draughts (w skrĂłcie: wszyscy ruszajÄ siÄ po 1 polu. Pionki tylko w kierunku wroga, damki w dowolnym)
-  z nastÄpujÄcymi modyfikacjami: a) bicie nie jest wymagane,  b) dozwolone jest tylko pojedyncze bicie (bez serii).
-
-NaleĹźy napisaÄ funkcje "minimax_a_b_recurr", "minimax_a_b" (ktĂłra woĹa funkcjÄ rekurencyjnÄ) i funkcje "*ev_func", ktĂłra oceniajÄ stan gry
-
-ChÄtni mogÄ ulepszaÄ mĂłj kod (trzeba oznaczyÄ komentarzem co zostaĹo zmienione), mogÄ rĂłwnieĹź dodaÄ obsĹugÄ bicia wielokrotnego i wymagania bicia. MogÄ rĂłwnieĹź wdroĹźyÄ reguĹy: https://en.wikipedia.org/wiki/Russian_draughts
+Nalezy napisac funkcje "minimax_a_b_recurr", "minimax_a_b" (ktora wola funkcje rekurencyjna) i funkcje "*ev_func", ktora oceniaja stan gry
 """
 
 import numpy as np
@@ -51,29 +38,29 @@ def basic_ev_func(board, is_black_turn):
     # ToDo funkcja liczy i zwraca ocene aktualnego stanu planszy
 
     # self.board[row][col].is_blue() - sprawdza czy to niebieski kolor figury
-    # self.board[row][col].is_white()- sprawdza czy to biaĹy kolor figury
+    # self.board[row][col].is_white()- sprawdza czy to biały kolor figury
     # self.board[row][col].is_king()- sprawdza czy to damka
-    # self.board[row][col].row - wiersz na ktĂłrym stoi figura
-    # self.board[row][col].col - kolumna na ktĂłrej stoi figura
-    # wspĂłĹrzÄdne zaczynajÄ (0,0) siÄ od lewej od gĂłry
+    # self.board[row][col].row - wiersz na ktorym stoi figura
+    # self.board[row][col].col - kolumna na ktorej stoi figura
+    # wspolrzedne zaczynaja (0,0) sie od lewej od gory
     return h
 
 
-# nagrody jak w wersji podstawowej + nagroda za stopieĹ zwartoĹci grupy
+# nagrody jak w wersji podstawowej + nagroda za stopien zwartosci grupy
 def group_prize_ev_func(board, is_black_turn):
     h = 0
     # ToDo
     return h
 
 
-# za kaĹźdy pion na wĹasnej poĹowie planszy otrzymuje siÄ 5 nagrody, na poĹowie przeciwnika 7, a za kaĹźdÄ damkÄ 10.
+# za kazdy pion na wlasnej polowie planszy otrzymuje sie 5 nagrody, na polowie przeciwnika 7, a za kazda damke 10.
 def push_to_opp_half_ev_func(board, is_black_turn):
     h = 0
     # ToDo
     return h
 
 
-# za kaĹźdy nasz pion otrzymuje siÄ nagrodÄ w wysokoĹci: (5 + numer wiersza, na ktĂłrym stoi pion) (im jest bliĹźej wroga tym lepiej), a za kaĹźdÄ damkÄ dodtakowe: 10.
+# za kazdy nasz pion otrzymuje sie nagrode w wysokosci: (5 + numer wiersza, na ktołrym stoi pion) (im jest blizej wroga tym lepiej), a za kazda damke dodtakowe: 10.
 def push_forward_ev_func(board, is_black_turn):
     h = 0
     # ToDo
