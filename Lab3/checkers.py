@@ -34,8 +34,30 @@ KING_MARK_COL = (255, 215, 0)
 
 # count difference between the number of pieces, king+10
 def basic_ev_func(board, is_black_turn):
-    h = 0
+    white_pieces = 0
+    white_kings = 0
+    black_pieces = 0
+    black_kings = 0
+    evaluation = 0
+
+    for row in range(0, 8):
+        for column in range(0, 8):
+            if board.board[row][column].is_white():
+                if board.board[row][column].is_king():
+                    white_kings += 1
+                else:
+                    white_pieces += 1
+            elif board.board[row][column].is_black():
+                if board.board[row][column].is_king():
+                    black_kings += 1
+                else:
+                    black_pieces += 1
+
+
+
     # ToDo funkcja liczy i zwraca ocene aktualnego stanu planszy
+    evaluation = (black_pieces + 10 * black_kings) + (-white_pieces - 10 * white_kings)
+
 
     # self.board[row][col].is_blue() - sprawdza czy to niebieski kolor figury
     # self.board[row][col].is_white()- sprawdza czy to biały kolor figury
@@ -43,7 +65,7 @@ def basic_ev_func(board, is_black_turn):
     # self.board[row][col].row - wiersz na ktorym stoi figura
     # self.board[row][col].col - kolumna na ktorej stoi figura
     # wspolrzedne zaczynaja (0,0) sie od lewej od gory
-    return h
+    return evaluation
 
 
 # nagrody jak w wersji podstawowej + nagroda za stopien zwartosci grupy
@@ -69,7 +91,10 @@ def push_forward_ev_func(board, is_black_turn):
 
 # f. called from main
 def minimax_a_b(board, depth, plays_as_black, ev_func):
+    #Format: [sourceRow, sourceCol, destRow, destCol, pieceId]
     possible_moves = board.get_possible_moves(plays_as_black)
+    #TODO do usuniecia
+    ev_func(board, 5)
     if len(possible_moves) == 0:
         board.white_won = plays_as_black
         board.is_running = False
@@ -78,10 +103,10 @@ def minimax_a_b(board, depth, plays_as_black, ev_func):
     a = -np.inf
     b = np.inf
     moves_marks = []
-    for possible_move in possible_moves:
+    # for possible_move in possible_moves:
     # ToDo
-
-    return possible_moves[best_index]
+    #     print(possible_move)
+    # return possible_moves[best_index]
 
 
 # recursive function, called from minimax_a_b
@@ -519,6 +544,6 @@ def ai_vs_ai():
     # if both won then it is a draw!
 
 
-main()
-# ai_vs_ai()
+# main()
+ai_vs_ai()
 
