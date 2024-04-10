@@ -6,6 +6,7 @@ from cec2017.functions import f13
 import numpy as np
 
 
+#Funkcja odpowiedzialna za generowanie populacji początkowej
 def generate_starting_population(population_size, lower_bound, upper_bound, dimensionality):
     population = []
     for i in range(0, population_size):
@@ -15,6 +16,7 @@ def generate_starting_population(population_size, lower_bound, upper_bound, dime
     return population
 
 
+#Funkcja odpowiedzialna za generowanie i ocenę kolejnych pokoleń
 def simulate_evolution(population, function):
     assess_population(population, function)
     global_best_individual = find_best_individual(population)
@@ -30,21 +32,25 @@ def simulate_evolution(population, function):
     return global_best_individual
 
 
+#Funkcja odpowiedzialna za ocenę aktualnej populacji
 def assess_population(population, function):
     for individual in population:
         individual[1] = function(individual[0])
 
 
+#Funkcja odpowiedzialna za znajdowanie najlepszych osobników  wpopulacji
 def find_best_individual(population):
     population.sort(key=lambda x: x[1], reverse=False)
     return population[0]
 
 
+#Funkcja odpowiedzialna za tworzenie nowej populacji
 def create_new_generation(population):
     new_population = tournament_selection(population)
     return mutate(new_population)
 
 
+#Dunkcja odpowiedzialna za przeprowadzenie slekecji turniejowej
 def tournament_selection(population):
     successors = []
     for i in range(0, len(population)):
@@ -57,6 +63,7 @@ def tournament_selection(population):
     return successors
 
 
+#Funkcja odpowiedzialna za przeprowadzenie mutacji
 def mutate(population):
     mutated_population = []
     for individual in population:
@@ -73,6 +80,7 @@ def mutate(population):
     return mutated_population
 
 
+#Główna funkcja odpowiedzialna za wywołanie symulacji
 def perform_simulation(population, function):
     results = []
     grades = []
