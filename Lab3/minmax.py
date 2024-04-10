@@ -19,8 +19,6 @@ def minimax_a_b(board, depth, plays_as_black, ev_func):
         print("Czarny: ", best_move[0])
     else:
         print("Biały: ", best_move[0])
-    # ToDo
-    #     print(possible_move)
 
     return best_move[1]
 
