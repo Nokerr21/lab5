@@ -75,6 +75,6 @@ def ai_vs_ai():
     # if both won then it is a draw!
 
 
-# main()
-ai_vs_ai()
+main()
+# ai_vs_ai()
 
