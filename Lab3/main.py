@@ -48,16 +48,20 @@ def main():
 
 def ai_vs_ai():
     board = board_class.Board()
+    window = pygame.display.set_mode((constants.WIN_WIDTH, constants.WIN_HEIGHT))
     is_running = True
+    clock = pygame.time.Clock()
+    game = game_class.Game(window, board)
 
     while is_running:
+        clock.tick(constants.FPS)
         if board.white_turn:
             move = minmax.minimax_a_b(board, 5, not board.white_turn, evaluations.basic_ev_func)
         else:
             move = minmax.minimax_a_b(board, 5, not board.white_turn, evaluations.basic_ev_func)
             # move = minmax.minimax_a_b( board, 5, not board.white_turn, evaluations.push_forward_ev_func)
             # move = minmax.minimax_a_b( board, 5, not board.white_turn, evaluations.push_to_opp_half_ev_func)
-            # move = minmax.minimax_a_b( board, 5, not board.white_turn, evaluations.group_prize_ev_func)
+            # move = minmax.minimax_a_b(board, 5, not board.white_turn, evaluations.group_prize_ev_func)
 
         if move is not None:
             board.register_move(move)
@@ -70,6 +74,10 @@ def ai_vs_ai():
             is_running = False
         if board.end():
             is_running = False
+
+        game.update()
+
+    pygame.quit()
     print("black_won:", board.black_won)
     print("white_won:", board.white_won)
     # if both won then it is a draw!
