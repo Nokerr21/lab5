@@ -8,9 +8,9 @@ def basic_ev_func(board, is_black_turn):
     black_pieces = 0
     black_kings = 0
     evaluation = 0
-
+    # in range((row + 1) % 2, constants.BOARD_WIDTH, 2)
     for row in range(0, constants.BOARD_WIDTH):
-        for column in range(0, constants.BOARD_HEIGHT):
+        for column in range((row + 1) % 2, constants.BOARD_WIDTH, 2):
             if board.board[row][column].is_white():
                 if board.board[row][column].is_king():
                     white_kings += 1

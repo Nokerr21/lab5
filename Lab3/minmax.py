@@ -2,7 +2,6 @@ import numpy as np
 from copy import deepcopy
 
 def minimax_a_b(board, depth, plays_as_black, ev_func):
-    # Format: [sourceRow, sourceCol, destRow, destCol, pieceId]
     possible_moves = board.get_possible_moves(plays_as_black)
     if len(possible_moves) == 0:
         board.white_won = plays_as_black
@@ -12,10 +11,14 @@ def minimax_a_b(board, depth, plays_as_black, ev_func):
     alpha = -np.inf
     beta = np.inf
     moves_marks = []
+    best_move = None
+    for move in possible_moves:
+        simulation_board = deepcopy(board)
+        simulation_board.make_move(move)
+        move_evaluation = minimax_a_b_recursive(simulation_board, depth - 1, not plays_as_black, alpha, beta, ev_func)
 
-    best_move = minimax_a_b_recursive(board, depth, plays_as_black, alpha, beta, ev_func)
     print(best_move)
-    if plays_as_black == True:
+    if plays_as_black:
         print("Czarny: ", best_move[0])
     else:
         print("Biały: ", best_move[0])
@@ -36,7 +39,7 @@ def minimax_a_b_recursive(board, depth, move_max, alpha, beta, ev_func):
         for possible_move in possible_moves:
             simulation_board = deepcopy(board)
             simulation_board.make_move(possible_move)
-            simulated_move_evaluation = minimax_a_b_recursive(simulation_board, depth - 1, False, alpha, beta, ev_func)[0]
+            simulated_move_evaluation = minimax_a_b_recursive(simulation_board, depth - 1, not move_max, alpha, beta, ev_func)[0]
             max_evaluation = max(max_evaluation, simulated_move_evaluation)
             alpha = max(alpha, simulated_move_evaluation)
             if max_evaluation == simulated_move_evaluation:
@@ -51,7 +54,7 @@ def minimax_a_b_recursive(board, depth, move_max, alpha, beta, ev_func):
         for possible_move in possible_moves:
             simulation_board = deepcopy(board)
             simulation_board.make_move(possible_move)
-            simulated_move_evaluation = minimax_a_b_recursive(simulation_board, depth - 1, True, alpha, beta, ev_func)[0]
+            simulated_move_evaluation = minimax_a_b_recursive(simulation_board, depth - 1, not move_max, alpha, beta, ev_func)[0]
             min_evaluation = min(min_evaluation, simulated_move_evaluation)
             beta = max(beta, simulated_move_evaluation)
             if min_evaluation == simulated_move_evaluation:
