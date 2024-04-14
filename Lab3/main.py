@@ -9,6 +9,8 @@ import board as board_class
 import game as game_class
 import minmax
 import evaluations
+from Lab3 import board
+
 
 def main():
     board = board_class.Board()
@@ -46,7 +48,7 @@ def main():
     pygame.quit()
 
 
-def ai_vs_ai():
+def ai_vs_ai(black_wins, white_wins):
     board = board_class.Board()
     window = pygame.display.set_mode((constants.WIN_WIDTH, constants.WIN_HEIGHT))
     is_running = True
@@ -69,8 +71,10 @@ def ai_vs_ai():
         else:
             if board.white_turn:
                 board.black_won = True
+                black_wins += 1
             else:
                 board.white_won = True
+                white_wins += 1
             is_running = False
         if board.end():
             is_running = False
@@ -84,5 +88,11 @@ def ai_vs_ai():
 
 
 # main()
-ai_vs_ai()
+black_wins = 0
+white_wins = 0
+for i in range(0, 16):
+    ai_vs_ai(black_wins, white_wins)
+
+print("black_wins", black_wins)
+print("white_wins", white_wins)
 

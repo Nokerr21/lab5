@@ -8,16 +8,17 @@ def basic_ev_func(board, is_black_turn):
     evaluation = 0
     for row in range(0, constants.BOARD_WIDTH):
         for column in range((row + 1) % 2, constants.BOARD_WIDTH, 2):
-            if board.board[row][column].is_white():
-                if board.board[row][column].is_king():
-                    evaluation -= 10
-                else:
-                    evaluation -= 1
-            elif board.board[row][column].is_black():
-                if board.board[row][column].is_king():
-                    evaluation += 10
-                else:
-                    evaluation += 1
+            if not board.board[row][column].is_empty():
+                if board.board[row][column].is_white():
+                    if board.board[row][column].is_king():
+                        evaluation -= 10
+                    else:
+                        evaluation -= 1
+                elif board.board[row][column].is_black():
+                    if board.board[row][column].is_king():
+                        evaluation += 10
+                    else:
+                        evaluation += 1
 
     return evaluation
 
