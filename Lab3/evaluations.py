@@ -14,6 +14,7 @@ def basic_ev_func(board, is_black_turn):
                         evaluation -= 10
                     else:
                         evaluation -= 1
+
                 elif board.board[row][column].is_black():
                     if board.board[row][column].is_king():
                         evaluation += 10

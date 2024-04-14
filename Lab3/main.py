@@ -48,21 +48,59 @@ def main():
     pygame.quit()
 
 
-def ai_vs_ai(black_wins, white_wins):
+# def ai_vs_ai():
+#     board = board_class.Board()
+#     window = pygame.display.set_mode((constants.WIN_WIDTH, constants.WIN_HEIGHT))
+#     is_running = True
+#     clock = pygame.time.Clock()
+#     game = game_class.Game(window, board)
+#
+#     while is_running:
+#         clock.tick(constants.FPS)
+#         if board.white_turn:
+#             move = minmax.minimax_a_b(board, 1, not board.white_turn, evaluations.basic_ev_func)
+#         else:
+#             move = minmax.minimax_a_b(board, 5, not board.white_turn, evaluations.basic_ev_func)
+#             # move = minmax.minimax_a_b( board, 5, not board.white_turn, evaluations.push_forward_ev_func)
+#             # move = minmax.minimax_a_b( board, 5, not board.white_turn, evaluations.push_to_opp_half_ev_func)
+#             # move = minmax.minimax_a_b(board, 5, not board.white_turn, evaluations.group_prize_ev_func)
+#
+#         if move is not None:
+#             board.register_move(move)
+#             board.make_move(move)
+#         else:
+#             if board.white_turn:
+#                 board.black_won = True
+#             else:
+#                 board.white_won = True
+#             is_running = False
+#         if board.end():
+#             is_running = False
+#
+#         game.update()
+#
+#     pygame.quit()
+#
+#     if board.black_won and board.white_won:
+#         print("Remis")
+#     elif board.black_won:
+#         print("Czarne wygrały")
+#     elif board.white_won:
+#         print("Białe wygrały")
+#     # if both won then it is a draw!
+
+
+def ai_vs_ai():
     board = board_class.Board()
-    window = pygame.display.set_mode((constants.WIN_WIDTH, constants.WIN_HEIGHT))
     is_running = True
-    clock = pygame.time.Clock()
-    game = game_class.Game(window, board)
 
     while is_running:
-        clock.tick(constants.FPS)
         if board.white_turn:
             move = minmax.minimax_a_b(board, 5, not board.white_turn, evaluations.basic_ev_func)
         else:
-            move = minmax.minimax_a_b(board, 5, not board.white_turn, evaluations.basic_ev_func)
-            # move = minmax.minimax_a_b( board, 5, not board.white_turn, evaluations.push_forward_ev_func)
-            # move = minmax.minimax_a_b( board, 5, not board.white_turn, evaluations.push_to_opp_half_ev_func)
+            move = minmax.minimax_a_b(board, 6, not board.white_turn, evaluations.basic_ev_func)
+            # move = minmax.minimax_a_b(board, 5, not board.white_turn, evaluations.push_forward_ev_func)
+            # move = minmax.minimax_a_b(board, 5, not board.white_turn, evaluations.push_to_opp_half_ev_func)
             # move = minmax.minimax_a_b(board, 5, not board.white_turn, evaluations.group_prize_ev_func)
 
         if move is not None:
@@ -71,28 +109,22 @@ def ai_vs_ai(black_wins, white_wins):
         else:
             if board.white_turn:
                 board.black_won = True
-                black_wins += 1
             else:
                 board.white_won = True
-                white_wins += 1
             is_running = False
         if board.end():
             is_running = False
 
-        game.update()
-
-    pygame.quit()
-    print("black_won:", board.black_won)
-    print("white_won:", board.white_won)
-    # if both won then it is a draw!
+        if board.black_won and board.white_won:
+            print("Remis")
+        elif board.black_won:
+            print("Czarne wygrały")
+        elif board.white_won:
+            print("Białe wygrały")
 
 
 # main()
-black_wins = 0
-white_wins = 0
-for i in range(0, 16):
-    ai_vs_ai(black_wins, white_wins)
+for i in range(0, 10):
+    ai_vs_ai()
 
-print("black_wins", black_wins)
-print("white_wins", white_wins)
 
