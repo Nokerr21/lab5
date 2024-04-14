@@ -29,38 +29,39 @@ def group_prize_ev_func(board, is_black_turn):
     evaluation = 0
     for row in range(0, constants.BOARD_WIDTH):
         for column in range((row + 1) % 2, constants.BOARD_WIDTH, 2):
-            if board.board[row][column].is_white():
-                if board.board[row][column].is_king():
-                    evaluation -= 10
-                else:
-                    evaluation -= 1
-                if is_piece_on_border(row, column):
-                    evaluation -= 3
-                else:
-                    if board.board[row - 1][column - 1].is_white():
-                        evaluation -= add_points_for_grouping()
-                    if board.board[row - 1][column + 1].is_white():
-                        evaluation -= add_points_for_grouping()
-                    if board.board[row - 1][column - 1].is_white():
-                        evaluation -= add_points_for_grouping()
-                    if board.board[row + 1][column + 1].is_white():
-                        evaluation -= add_points_for_grouping()
-            elif board.board[row][column].is_black():
-                if board.board[row][column].is_king():
-                    evaluation += 10
-                else:
-                    evaluation += 1
-                if is_piece_on_border(row, column):
-                    evaluation += 3
-                else:
-                    if board.board[row - 1][column - 1].is_black():
-                        evaluation += add_points_for_grouping()
-                    if board.board[row - 1][column + 1].is_black():
-                        evaluation += add_points_for_grouping()
-                    if board.board[row - 1][column - 1].is_black():
-                        evaluation += add_points_for_grouping()
-                    if board.board[row + 1][column + 1].is_black():
-                        evaluation += add_points_for_grouping()
+            if not board.board[row][column].is_empty():
+                if board.board[row][column].is_white():
+                    if board.board[row][column].is_king():
+                        evaluation -= 10
+                    else:
+                        evaluation -= 1
+                    if is_piece_on_border(row, column):
+                        evaluation -= 3
+                    else:
+                        if board.board[row - 1][column - 1].is_white():
+                            evaluation -= add_points_for_grouping()
+                        if board.board[row - 1][column + 1].is_white():
+                            evaluation -= add_points_for_grouping()
+                        if board.board[row - 1][column - 1].is_white():
+                            evaluation -= add_points_for_grouping()
+                        if board.board[row + 1][column + 1].is_white():
+                            evaluation -= add_points_for_grouping()
+                elif board.board[row][column].is_black():
+                    if board.board[row][column].is_king():
+                        evaluation += 10
+                    else:
+                        evaluation += 1
+                    if is_piece_on_border(row, column):
+                        evaluation += 3
+                    else:
+                        if board.board[row - 1][column - 1].is_black():
+                            evaluation += add_points_for_grouping()
+                        if board.board[row - 1][column + 1].is_black():
+                            evaluation += add_points_for_grouping()
+                        if board.board[row - 1][column - 1].is_black():
+                            evaluation += add_points_for_grouping()
+                        if board.board[row + 1][column + 1].is_black():
+                            evaluation += add_points_for_grouping()
 
     return evaluation
 
@@ -78,22 +79,23 @@ def push_to_opp_half_ev_func(board, is_black_turn):
     evaluation = 0
     for row in range(0, constants.BOARD_WIDTH):
         for column in range((row + 1) % 2, constants.BOARD_WIDTH, 2):
-            if board.board[row][column].is_white():
-                if board.board[row][column].is_king():
-                    evaluation -= 10
-                else:
-                    if row >= 4:
-                        evaluation -= 5
+            if not board.board[row][column].is_empty():
+                if board.board[row][column].is_white():
+                    if board.board[row][column].is_king():
+                        evaluation -= 10
                     else:
-                        evaluation -= 7
-            elif board.board[row][column].is_black():
-                if board.board[row][column].is_king():
-                    evaluation += 10
-                else:
-                    if row >= 4:
-                        evaluation += 7
+                        if row >= 4:
+                            evaluation -= 5
+                        else:
+                            evaluation -= 7
+                elif board.board[row][column].is_black():
+                    if board.board[row][column].is_king():
+                        evaluation += 10
                     else:
-                        evaluation += 5
+                        if row >= 4:
+                            evaluation += 7
+                        else:
+                            evaluation += 5
 
     return evaluation
 
@@ -103,13 +105,14 @@ def push_forward_ev_func(board, is_black_turn):
     evaluation = 0
     for row in range(0, constants.BOARD_WIDTH):
         for column in range((row + 1) % 2, constants.BOARD_WIDTH, 2):
-            if board.board[row][column].is_white():
-                evaluation = evaluation - 5 - (7 - row)
-                if board.board[row][column].is_king():
-                    evaluation -= 10
-            elif board.board[row][column].is_black():
-                evaluation = evaluation + 5 + row
-                if board.board[row][column].is_king():
-                    evaluation += 10
+            if not board.board[row][column].is_empty():
+                if board.board[row][column].is_white():
+                    evaluation = evaluation - 5 - (7 - row)
+                    if board.board[row][column].is_king():
+                        evaluation -= 10
+                elif board.board[row][column].is_black():
+                    evaluation = evaluation + 5 + row
+                    if board.board[row][column].is_king():
+                        evaluation += 10
 
     return evaluation

@@ -15,12 +15,15 @@ def minimax_a_b(board, depth, plays_as_black, ev_func):
     move_value_max = -np.inf
     move_value_min = np.inf
     best_moves = []
+    # Uruchamianie algorytmu dla każdego możłiwego ruchu
     for move in possible_moves:
         simulation_board = deepcopy(board)
         simulation_board.make_move(move)
         move_evaluation = minimax_a_b_recursive(simulation_board, depth - 1, not plays_as_black, alpha, beta, ev_func)
 
         if plays_as_black:
+            #Jeśli obliczona ocena jest większa niż aktualna największa,
+            # wyczyścić listę najlepszych ruchó i dodać aktualnie najlepszy
             if move_evaluation > move_value_max:
                 move_value_max = move_evaluation
                 best_moves.clear()
@@ -29,6 +32,8 @@ def minimax_a_b(board, depth, plays_as_black, ev_func):
                 best_moves.append(move)
 
         else:
+            #Jeśli obliczona ocena jest mniejsza niż aktualna najmniejsza,
+            # wyczyścić listę najlepszych ruchó i dodać aktualnie najlepszy
             if move_evaluation < move_value_min:
                 move_value_min = move_evaluation
                 best_moves.clear()
@@ -36,24 +41,19 @@ def minimax_a_b(board, depth, plays_as_black, ev_func):
             elif move_evaluation == move_value_min:
                 best_moves.append(move)
 
-    if plays_as_black:
-        print("Czarny: ", best_moves)
-        print("Ocena: ", move_value_max)
-    else:
-        print("Biały: ", best_moves)
-        print("Ocena: ", move_value_min)
-
     return np.random.choice(best_moves)
 
 
 # recursive function, called from minimax_a_b
 def minimax_a_b_recursive(board, depth, move_max, alpha, beta, ev_func):
+    # Nagrody za wygraną
     if move_max and (board.white_fig_left == 0 or len(board.get_possible_moves(not move_max))) == 0:
         return constants.WON_PRIZE
 
     if not move_max and (board.black_fig_left == 0 or len(board.get_possible_moves(move_max))) == 0:
         return -constants.WON_PRIZE
 
+    #Uruchomienie funkcji oceny
     if depth == 0:
         return ev_func(board, move_max)
 

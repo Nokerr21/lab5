@@ -97,8 +97,10 @@ def ai_vs_ai():
     while is_running:
         if board.white_turn:
             move = minmax.minimax_a_b(board, 5, not board.white_turn, evaluations.basic_ev_func)
+            # move = minmax.minimax_a_b(board, 5, not board.white_turn, evaluations.group_prize_ev_func)
+            # move = minmax.minimax_a_b(board, 5, not board.white_turn, evaluations.push_to_opp_half_ev_func)
         else:
-            move = minmax.minimax_a_b(board, 6, not board.white_turn, evaluations.basic_ev_func)
+            move = minmax.minimax_a_b(board, 5, not board.white_turn, evaluations.basic_ev_func)
             # move = minmax.minimax_a_b(board, 5, not board.white_turn, evaluations.push_forward_ev_func)
             # move = minmax.minimax_a_b(board, 5, not board.white_turn, evaluations.push_to_opp_half_ev_func)
             # move = minmax.minimax_a_b(board, 5, not board.white_turn, evaluations.group_prize_ev_func)
