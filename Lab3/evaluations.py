@@ -2,8 +2,6 @@ import constants
 
 
 # count difference between the number of pieces, king+10
-
-
 def basic_ev_func(board, is_black_turn):
     evaluation = 0
     for row in range(0, constants.BOARD_WIDTH):

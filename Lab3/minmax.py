@@ -33,7 +33,7 @@ def minimax_a_b(board, depth, plays_as_black, ev_func):
 
         else:
             #Jeśli obliczona ocena jest mniejsza niż aktualna najmniejsza,
-            # wyczyścić listę najlepszych ruchó i dodać aktualnie najlepszy
+            # wyczyścić listę najlepszych ruchów i dodać aktualnie najlepszy
             if move_evaluation < move_value_min:
                 move_value_min = move_evaluation
                 best_moves.clear()
