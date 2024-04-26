@@ -1,7 +1,7 @@
 import numpy as np
 
 
-class Tree:
+class DecisionTree:
     def __init__(self, training_set, attributes, terminal=False, predicted_class=None):
         if terminal and predicted_class is not None:
             self.isTerminal = True
@@ -42,9 +42,9 @@ class Tree:
             #TODO tu chyba jest coś nie tak
             if selected_rows.shape[0] == 0:
                 predicted_class = training_set['Class'].mode()[0]
-                self.children[value] = Tree(selected_rows, new_attributes, True, predicted_class)
+                self.children[value] = DecisionTree(selected_rows, new_attributes, True, predicted_class)
             else:
-                self.children[value] = Tree(selected_rows, new_attributes)
+                self.children[value] = DecisionTree(selected_rows, new_attributes)
 
     def predict(self, item):
         if self.isTerminal:

@@ -1,5 +1,5 @@
 # import id3
-import Tree
+import DecisionTree
 import numpy as np
 import pandas as pd
 
@@ -52,7 +52,7 @@ def perform_mushrooms_training():
     training_set = mushrooms_dataset.iloc[random_indexes]
     test_set = mushrooms_dataset.drop(random_indexes)
 
-    tree = Tree.Tree(training_set, attributes)
+    tree = DecisionTree.DecisionTree(training_set, attributes)
 
     test_set.reset_index()
     counter = 0
@@ -84,7 +84,7 @@ def perform_breast_cancer_training():
     training_set = breast_cancer_dataset.iloc[random_indexes]
     test_set = breast_cancer_dataset.drop(random_indexes)
 
-    tree = Tree.Tree(training_set, attributes)
+    tree = DecisionTree.DecisionTree(training_set, attributes)
 
     test_set.reset_index()
     counter = 0
