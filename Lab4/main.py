@@ -1,5 +1,4 @@
-# import id3
-import DecisionTree
+import ID3
 import numpy as np
 import pandas as pd
 
@@ -17,7 +16,7 @@ def retrieve_attributes_from_dataset(data):
     return result
 
 
-def perform_mushrooms_training():
+def perform_mushrooms_training_and_test():
     mushrooms_dataset = read_dataset_from_file('agaricus-lepiota.data')
     mushrooms_dataset.columns = ["Class",
                                  "cap-shape",
@@ -44,26 +43,14 @@ def perform_mushrooms_training():
                                  "habitat"]
 
     attributes = retrieve_attributes_from_dataset(mushrooms_dataset)
-
-    training_set_size = int(3 * len(mushrooms_dataset) / 5)
-
-    random_indexes = np.random.choice(len(mushrooms_dataset), training_set_size, replace=False)
-
-    training_set = mushrooms_dataset.iloc[random_indexes]
-    test_set = mushrooms_dataset.drop(random_indexes)
-
-    tree = DecisionTree.DecisionTree(training_set, attributes)
-
+    training_set, test_set = divide_data_set(mushrooms_dataset)
+    decision_tree = ID3.ID3Node(training_set, attributes)
     test_set.reset_index()
-    counter = 0
-    for index, row in test_set.iterrows():
-        if row['Class'] == tree.predict(row[1:]):
-            counter += 1
 
-    print(counter / len(test_set))
+    print(perform_decision_tree_test(decision_tree, test_set) / len(test_set))
 
 
-def perform_breast_cancer_training():
+def perform_breast_cancer_training_and_test():
     breast_cancer_dataset = read_dataset_from_file('breast-cancer.data')
     breast_cancer_dataset.columns = ["Class",
                                      "age",
@@ -77,23 +64,29 @@ def perform_breast_cancer_training():
                                      "irradiat"]
 
     attributes = retrieve_attributes_from_dataset(breast_cancer_dataset)
-    training_set_size = int(3 * len(breast_cancer_dataset) / 5)
-
-    random_indexes = np.random.choice(len(breast_cancer_dataset), training_set_size, replace=False)
-
-    training_set = breast_cancer_dataset.iloc[random_indexes]
-    test_set = breast_cancer_dataset.drop(random_indexes)
-
-    tree = DecisionTree.DecisionTree(training_set, attributes)
-
+    training_set, test_set = divide_data_set(breast_cancer_dataset)
+    decision_tree = ID3.ID3Node(training_set, attributes)
     test_set.reset_index()
+
+    print(perform_decision_tree_test(decision_tree, test_set) / len(test_set))
+
+
+def divide_data_set(data_set):
+    training_set_size = int(3 * len(data_set) / 5)
+    random_indexes = np.random.choice(len(data_set), training_set_size, replace=False)
+    training_set = data_set.iloc[random_indexes]
+    test_set = data_set.drop(random_indexes)
+
+    return training_set, test_set
+
+
+def perform_decision_tree_test(decision_tree, test_set):
     counter = 0
     for index, row in test_set.iterrows():
-        if row['Class'] == tree.predict(row[1:]):
+        if row['Class'] == decision_tree.predict(row[1:]):
             counter += 1
+    return counter
 
-    print(counter / len(test_set))
 
-
-perform_mushrooms_training()
-perform_breast_cancer_training()
+perform_mushrooms_training_and_test()
+perform_breast_cancer_training_and_test()
