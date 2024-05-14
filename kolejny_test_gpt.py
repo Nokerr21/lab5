@@ -87,6 +87,7 @@ class DlNet:
         # Gradient for w2 and b2
         d_z2 = d_loss_y_out  # d y_los_out / d z2
         d_w2 = np.dot(self.a1.T, d_z2) / m  # d y_los_out / d z2 * d z2 / d w2
+        # /m is for normalization along all samples
         d_b2 = np.sum(d_z2, axis=0, keepdims=True) / m  # sum along all samples
 
         # Calculate hidden layer error
