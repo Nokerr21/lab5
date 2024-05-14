@@ -47,13 +47,13 @@ class DlNet:
         # self.b2 = np.random.random((1, output_size))
         # self.b2 = self.b2 * 2 - 1
 
-        self.LR = 0.00003
+        self.LR = 0.1
 
     def forward(self, x):
         self.z1 = np.dot(x, self.w1) + self.b1
         self.a1 = sigmoid(self.z1)
         self.z2 = np.dot(self.a1, self.w2) + self.b2
-        self.a2 = self.z2
+        self.a2 = sigmoid(self.z2)
         return self.a2
 
     def backward(self, x, y):
@@ -71,8 +71,8 @@ class DlNet:
         # self.b2 -= self.LR * np.sum(self.output_delta, axis=0)
         # print(self.b2)
 
-                   # d Etot/d a2         d a2 / d z2
-        a2_delta = d_mse_loss(self.a2, y) * 1  # z2 -> a2
+                   # d Etot/d a2             d a2 / d z2
+        a2_delta = d_mse_loss(self.a2, y) * d_sigmoid(self.z2)  # z2 -> a2
                    # d Etot / d a1 * d z1 / d a1                d a1 / a z1
         a1_delta = np.dot(d_mse_loss(self.a1, y), self.w1.T) * d_sigmoid(self.z1)  # z1 -> a1
 
@@ -100,7 +100,7 @@ class DlNet:
 
 # Prepare the data for training
 x = x.reshape(-1, 1)  # Reshape x to fit the neural network input
-nn = DlNet(1, 20, 1)
+nn = DlNet(1, 12, 1)
 nn.train(x, y.reshape(-1, 1), 15000)
 
 # Predict using the trained network
