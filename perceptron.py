@@ -38,7 +38,7 @@ class DlNet:
         self.y = y.reshape(-1, 1)
         self.y_out = 0
 
-        self.HIDDEN_L_SIZE = 70
+        self.HIDDEN_L_SIZE = 7
         self.INPUT_L_SIZE = 1
         self.OUTPUT_L_SIZE = 1
         self.LR = 0.1
